@@ -22,4 +22,9 @@
     <ProjectReference Include="..\Companies.Infrastructure\Companies.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs/" />
+    <Folder Include="Mappings/" />
+  </ItemGroup>
+
 </Project>
