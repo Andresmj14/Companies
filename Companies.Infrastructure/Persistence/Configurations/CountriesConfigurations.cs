@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Companies.Domain.Entities;
 using System.Linq;
+using Companies.Application.Abstracctions;
 
 namespace Companies.Infrastructure.Persistence.Configurations;
 
-public sealed class CountriesConfigurations
+public sealed class CountriesConfigurations : IEntityTypeConfiguration<Countries>
 {
     public void Configure(EntityTypeBuilder<Countries> builder)
     {
@@ -26,3 +27,4 @@ public sealed class CountriesConfigurations
             .HasForeignKey(r => r.Countriesid);
     }
 }
+
