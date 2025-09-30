@@ -7,18 +7,19 @@ using System.Net.Sockets;
 
 namespace Companies.Domain.Entities
 {
-    public class Companies
+    public class Companie
     {
         public int id { get; set; } = Guid.NewGuid().GetHashCode();
         public string name { get; set; } = null!;
         public Ukniu Ukniu { get; set; } = null!;
         public string address { get; set; } = null!;
-        public List<Cities> citiesid { get; set; } = new List<Cities>();
+        public int Citiesid {get; set; }
+        public Cities Cities { get; set; } = null!;
         public string email { get; set; } = null!;
 
-        protected Companies() { }
+        protected Companie() { }
 
-        public Companies(string name, Ukniu ukniu, string address, string email)
+        public Companie(string name, Ukniu ukniu, string address, string email)
         {
             this.name = name;
             Ukniu = ukniu;

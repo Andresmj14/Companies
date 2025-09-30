@@ -24,5 +24,15 @@ public class CitiesConfigurations
             .WithMany(r => r.citiesid)
             .HasForeignKey(c => c.Regionsid)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(c => c.companiesid)
+            .WithOne(co => co.Cities)
+            .HasForeignKey(co => co.Citiesid)
+            .OnDelete(DeleteBehavior.Cascade);
+            
+        builder.HasMany(c => c.branchesid)
+            .WithOne(b => b.Cities)
+            .HasForeignKey(b => b.Citiesid)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

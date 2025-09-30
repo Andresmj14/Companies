@@ -13,6 +13,8 @@ namespace Companies.Domain.Entities
         public string name { get; set; } = null!;
         public int Regionsid {get; set; }
         public Regions Regions { get; set; } = null!;
+        public List<Companie> companiesid { get; set; } = new List<Companie>();
+        public List<Branches> branchesid { get; set; } = new List<Branches>();
 
 
         protected Cities() { }

@@ -14,9 +14,8 @@ namespace Companies.Domain.Entities
         public string email { get; set; } = null!;
         public string contact_name { get; set; } = null!;
         public string Phone { get; set; } = null!;
-        public List<Cities> citiesid { get; set; } = new List<Cities>();
-        public List<Companies> companiesid { get; set; } = new List<Companies>();
-
+        public int Citiesid {get; set; }
+        public Cities Cities { get; set; } = null!;
         protected Branches() { }
 
         public Branches(string number_comercial, string address, string email, string contact_name, string phone)
