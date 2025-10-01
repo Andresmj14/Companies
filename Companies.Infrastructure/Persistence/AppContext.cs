@@ -8,7 +8,12 @@ namespace Companies.Infrastructure.Persistence;
 public sealed class AppDbContext : DbContext
 {
     //public DbSet<Product> Products { get; set; } = default!;
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)    
+    public DbSet<Countries> Countries { get; set; } = default!;
+    public DbSet<Regions> Regions { get; set; } = default!;
+    public DbSet<Cities> Cities { get; set; } = default!;
+    public DbSet<Companie> Companie { get; set; } = default!;
+    public DbSet<Branches> Branches { get; set; } = default!;
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
 
     }

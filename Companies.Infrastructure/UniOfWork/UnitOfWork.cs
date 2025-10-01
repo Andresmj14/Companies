@@ -1,16 +1,21 @@
 using System;
+using Companies.Application.Abstracctions;
 using Companies.Application.Abstractions;
-//using Companies.Infrastructure.Persistence;
-//using Companies.Infrastructure.Repositories;
+using Companies.Infrastructure.Persistence;
+using Companies.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Companies.Infrastructure.UnitOfWork;
 
-/*public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
-    //private IProductRepository? _productRepository;
+    private ICountriesRepository? _countriesRepository;
+    private IRegiosnRepository? _regionsRepository;
+    private ICitiesRepository? _citiesRepository;
+    private ICompaniesRepository? _companiesRepository;
+    private IBranchesRepository? _branchesRepository;
 
     public UnitOfWork(AppDbContext db)
     {
@@ -40,15 +45,15 @@ namespace Companies.Infrastructure.UnitOfWork;
     // {
     //     _context = context;
     // }
-    /*public IProductRepository Products{
+    public ICountriesRepository Countries{
         get
         {
-            if(_productRepository == null)
+            if(_countriesRepository == null)
             {
-                 _productRepository = new ProductRepository(_context);
+                _countriesRepository = new CountriesRepository(_context);
             }
-            return _productRepository;
+            return _countriesRepository;
         }
     }
 
-}*/
+}
