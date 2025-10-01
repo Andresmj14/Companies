@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/camper/Companies/Companies.Domain/Companies.Domain.csproj",
+      "projectUniqueName": "/home/camper/Companies-1/Companies.Domain/Companies.Domain.csproj",
       "projectName": "Companies.Domain",
-      "projectPath": "/home/camper/Companies/Companies.Domain/Companies.Domain.csproj",
+      "projectPath": "/home/camper/Companies-1/Companies.Domain/Companies.Domain.csproj",
       "packagesPath": "/home/camper/.nuget/packages/",
-      "outputPath": "/home/camper/Companies/Companies.Domain/obj/",
+      "outputPath": "/home/camper/Companies-1/Companies.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/camper/.nuget/NuGet/NuGet.Config"

@@ -12,4 +12,7 @@ public interface ICountriesRepository
     Task UpdateAsync(Countries country, CancellationToken ct = default);
     Task DeleteAsync(Countries country, CancellationToken ct = default);
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default);
+    Task<IReadOnlyList<Countries>> GetAllAsync(CancellationToken ct = default);
+    Task<IReadOnlyList<Countries>> GetByRegionAsync(Regions region, CancellationToken ct = default);
+    Task<int> CountAsync(string? search = null, CancellationToken ct = default);
 }

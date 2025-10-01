@@ -1085,11 +1085,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/camper/Companies/Companies.Infrastructure/Companies.Infrastructure.csproj",
+      "projectUniqueName": "/home/camper/Companies-1/Companies.Infrastructure/Companies.Infrastructure.csproj",
       "projectName": "Companies.Infrastructure",
-      "projectPath": "/home/camper/Companies/Companies.Infrastructure/Companies.Infrastructure.csproj",
+      "projectPath": "/home/camper/Companies-1/Companies.Infrastructure/Companies.Infrastructure.csproj",
       "packagesPath": "/home/camper/.nuget/packages/",
-      "outputPath": "/home/camper/Companies/Companies.Infrastructure/obj/",
+      "outputPath": "/home/camper/Companies-1/Companies.Infrastructure/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/camper/.nuget/NuGet/NuGet.Config"
@@ -1104,11 +1104,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/home/camper/Companies/Companies.Application/Companies.Application.csproj": {
-              "projectPath": "/home/camper/Companies/Companies.Application/Companies.Application.csproj"
+            "/home/camper/Companies-1/Companies.Application/Companies.Application.csproj": {
+              "projectPath": "/home/camper/Companies-1/Companies.Application/Companies.Application.csproj"
             },
-            "/home/camper/Companies/Companies.Domain/Companies.Domain.csproj": {
-              "projectPath": "/home/camper/Companies/Companies.Domain/Companies.Domain.csproj"
+            "/home/camper/Companies-1/Companies.Domain/Companies.Domain.csproj": {
+              "projectPath": "/home/camper/Companies-1/Companies.Domain/Companies.Domain.csproj"
             }
           }
         }

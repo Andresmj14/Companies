@@ -6,7 +6,7 @@ using Companies.Domain.Entities;
 
 namespace Companies.Infrastructure.Persistence.Configurations;
 
-public sealed class RegionsConfigurations
+public sealed class RegionsConfigurations : IEntityTypeConfiguration<Regions>
 {
     public void Configure(EntityTypeBuilder<Regions> builder)
     {
