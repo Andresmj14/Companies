@@ -4,40 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 
-namespace Companies.Domain.Entities
+namespace Companies.Domain.Entities;
+
+public class Branches
 {
-    public class Branches
+    public int Id { get; set; }
+    public int Number_Comercial { get; set; } = 0;
+    public string Address { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string Contact_Name { get; set; } = null!;
+
+    public int CityId { get; set; }
+    public virtual Cities? City { get; set; }
+    public int CompanyId { get; set; }
+    public virtual Companiess? Company { get; set; }
+
+    public Branches() { }
+    public Branches(int numberComercial, string address, string email, string contactName, int cityId, int companyId)
     {
-        public int id { get; set; } = Guid.NewGuid().GetHashCode();
-        public string number_comercial { get; set; } = null!;
-        public string address { get; set; } = null!;
-        public string email { get; set; } = null!;
-        public string contact_name { get; set; } = null!;
-        public string Phone { get; set; } = null!;
-        public int Citiesid {get; set; }
-        public Cities Cities { get; set; } = null!;
-        protected Branches() { }
-
-        public Branches(string number_comercial, string address, string email, string contact_name, string phone)
-        {
-            this.number_comercial = number_comercial;
-            this.address = address;
-            this.email = email;
-            this.contact_name = contact_name;
-            Phone = phone;
-        }
-        public void UpdateBranch(string newNumberComercial, string newAddress, string newEmail, string newContactName, string newPhone)
-        {
-            number_comercial = newNumberComercial;
-            address = newAddress;
-            email = newEmail;
-            contact_name = newContactName;
-            Phone = newPhone;
-        }
-     }
-    
-
-
-
+        Number_Comercial = numberComercial;
+        Address = address;
+        Email = email;
+        Contact_Name = contactName;
+        CityId = cityId;
+        CompanyId = companyId;
+    }
 }
-
