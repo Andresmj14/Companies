@@ -8,50 +8,50 @@ using Companies.Domain.ValueObjects;
 using Companies.Application.Abstracctions;
 
 namespace Companies.Infrastructure.Repositories;
-
 public class CitiesRepository(AppDbContext db) : ICitiesRepository
 {
-    public Task<Cities?> GetByIdAsync(int id, CancellationToken ct = default)
-            => db.Cities.AsNoTracking().FirstOrDefaultAsync(c => c.id == id, ct);
-        public Task<Cities?> ByNameAsync(string name, CancellationToken ct = default)
-            => db.Cities.AsNoTracking().FirstOrDefaultAsync(c => c.name == name, ct);
-        public async Task AddAsync(Cities cities, CancellationToken ct = default)
+    public async Task<Cities?> GetByIdAsync(int id, CancellationToken ct = default)
+        => await db.Cities.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, ct);
+
+    public async Task<IEnumerable<Cities>> GetAllAsync(CancellationToken ct = default)
+        => await db.Cities.AsNoTracking().ToListAsync(ct);
+
+    public async Task<Cities?> GetByNameAsync(string name, CancellationToken ct = default)
+        => await db.Cities.AsNoTracking().FirstOrDefaultAsync(c => c.Name == name, ct);
+
+    public async Task<IEnumerable<Cities>> GetByRegionIdAsync(int regionId, CancellationToken ct = default)
+        => await db.Cities.AsNoTracking().Where(c => c.RegionId == regionId).ToListAsync(ct);
+
+    public Task AddAsync(Cities city, CancellationToken ct = default)
+    {
+        db.Cities.Add(city);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(Cities city, CancellationToken ct = default)
+    {
+        db.Cities.Update(city);
+        return Task.CompletedTask;
+    }
+
+    public async Task DeleteAsync(int id, CancellationToken ct = default)
+    {
+        var city = await db.Cities.FindAsync([id], ct);
+        if (city is not null)
         {
-            db.Cities.Add(cities);
-            //await db.SaveChangesAsync(ct);
+            db.Cities.Remove(city);
             await Task.CompletedTask;
-        }
-
-        public async Task UpdateAsync(Cities cities, CancellationToken ct = default)
-        {
-            db.Cities.Update(cities);
-            //await db.SaveChangesAsync(ct);
-            await Task.CompletedTask;
-        }
-
-        public async Task DeleteAsync(Cities cities, CancellationToken ct = default)
-        {
-            db.Cities.Remove(cities);
-            //await db.SaveChangesAsync(ct);
-            await Task.CompletedTask;
-        }
-
-        public Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyList<Cities?>> GetAllAsync(CancellationToken ct = default)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<IReadOnlyList<Cities?>> GetByCountryAsync(Countries country, CancellationToken ct = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> CountAsync(string? search = null, CancellationToken ct = default)
-        {
-            throw new NotImplementedException();
         }
     }
+
+    public async Task<int> CountAsync(string? q, CancellationToken ct = default)
+    {
+        var query = db.Cities.AsNoTracking();
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            var term = q.Trim().ToUpper();
+            query = query.Where(c => c.Name.ToUpper().Contains(term));
+        }
+        return await query.CountAsync(ct);
+    }
+}
