@@ -8,46 +8,50 @@ using Companies.Application.Abstracctions;
 
 namespace Companies.Infrastructure.Repositories;
 
-public sealed class RegionsRepository(AppDbContext db) : IRegiosnRepository
+public class RegionsRepository(AppDbContext db) : IRegionsRepository
 {
-    public Task<Regions?> GetByIdAsync(int id, CancellationToken ct = default)
-        => db.Regions.AsNoTracking().FirstOrDefaultAsync(r => r.id == id, ct);
-    public Task<Regions?> ByNameAsync(string name, CancellationToken ct = default)
-        => db.Regions.AsNoTracking().FirstOrDefaultAsync(c => c.name == name, ct);
-    public async Task AddAsync(Regions regions, CancellationToken ct = default)
+    public async Task<Regions?> GetByIdAsync(int id, CancellationToken ct = default)
+        => await db.Regions.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id, ct);
+
+    public async Task<IEnumerable<Regions>> GetAllAsync(CancellationToken ct = default)
+        => await db.Regions.AsNoTracking().ToListAsync(ct);
+
+    public async Task<Regions?> GetByNameAsync(string name, CancellationToken ct = default)
+        => await db.Regions.AsNoTracking().FirstOrDefaultAsync(r => r.Name == name, ct);
+
+    public async Task<IEnumerable<Regions>> GetByCountryIdAsync(int countryId, CancellationToken ct = default)
+        => await db.Regions.AsNoTracking().Where(r => r.CountryId == countryId).ToListAsync(ct);
+
+    public Task AddAsync(Regions region, CancellationToken ct = default)
     {
-        db.Regions.Add(regions);
-        //await db.SaveChangesAsync(ct);
-        await Task.CompletedTask;
+        db.Regions.Add(region);
+        return Task.CompletedTask;
     }
 
-    public async Task UpdateAsync(Regions regions, CancellationToken ct = default)
+    public Task UpdateAsync(Regions region, CancellationToken ct = default)
     {
-        db.Regions.Update(regions);
-        //await db.SaveChangesAsync(ct);
-        await Task.CompletedTask;
+        db.Regions.Update(region);
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Regions regions, CancellationToken ct = default)
+    public async Task DeleteAsync(int id, CancellationToken ct = default)
     {
-        db.Regions.Remove(regions);
-        //await db.SaveChangesAsync(ct);
-        await Task.CompletedTask;
+        var region = await db.Regions.FindAsync([id], ct);
+        if (region is not null)
+        {
+            db.Regions.Remove(region);
+            await Task.CompletedTask;
+        }
     }
 
-    public Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default)
+    public async Task<int> CountAsync(string? q, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<IReadOnlyList<Regions?>> GetAllAsync(CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<int> CountAsync(string? search = null, CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
+        var query = db.Regions.AsNoTracking();
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            var term = q.Trim().ToUpper();
+            query = query.Where(r => r.Name.ToUpper().Contains(term));
+        }
+        return await query.CountAsync(ct);
     }
 }
