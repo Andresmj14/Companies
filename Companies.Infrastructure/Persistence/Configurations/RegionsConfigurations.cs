@@ -6,23 +6,24 @@ using Companies.Domain.Entities;
 
 namespace Companies.Infrastructure.Persistence.Configurations;
 
-public sealed class RegionsConfigurations : IEntityTypeConfiguration<Regions>
+public class RegionsConfiguration: IEntityTypeConfiguration<Regions>
 {
     public void Configure(EntityTypeBuilder<Regions> builder)
     {
         builder.ToTable("Regions");
 
-        builder.HasKey(r => r.id);
-        builder.Property(r => r.id)
-            .ValueGeneratedOnAdd();
+        builder.HasKey(r => r.Id);
 
-        builder.Property(r => r.name)
+        builder.Property(r => r.Name)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.HasOne(r => r.Countries)    // Regions → Country
-            .WithMany(c => c.Regions)       // Countries → Regions
-            .HasForeignKey(r => r.Countriesid);
-
+        builder.HasOne(r => r.Country)
+            .WithMany(c => c.Regions)
+            .HasForeignKey(r => r.CountryId);
+        
+        builder.HasMany(r => r.Cities)
+            .WithOne(c => c.Region)
+            .HasForeignKey(c => c.RegionId);
     }
 }
