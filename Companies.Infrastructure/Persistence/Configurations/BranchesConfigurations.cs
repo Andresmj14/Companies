@@ -5,31 +5,37 @@ using Companies.Domain.Entities;
 
 namespace Companies.Infrastructure.Persistence.Configurations;
 
-public sealed class BranchesConfigurations
+public class BranchesConfiguration : IEntityTypeConfiguration<Branches>
 {
     public void Configure(EntityTypeBuilder<Branches> builder)
     {
         builder.ToTable("Branches");
 
-        builder.HasKey(b => b.id);
-        builder.Property(b => b.id)
-            .ValueGeneratedOnAdd();
+        builder.HasKey(b => b.Id);
 
-        builder.Property(b => b.contact_name)
+        builder.Property(b => b.Number_Comercial)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(b => b.address)
+        builder.Property(b => b.Address)
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(b => b.email)
+        builder.Property(b => b.Email)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.HasOne(b => b.Cities)
-            .WithMany(c => c.branchesid)
-            .HasForeignKey(b => b.Citiesid)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.Property(b => b.Contact_Name)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.HasOne(b => b.City)
+            .WithMany(c => c.Branches)  
+            .HasForeignKey(b => b.CityId);
+
+        builder.HasOne(b => b.Company)
+            .WithMany(c => c.Branches)
+            .HasForeignKey(b => b.CompanyId);
+
     }
 }
