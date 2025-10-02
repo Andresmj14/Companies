@@ -8,62 +8,47 @@ using Companies.Application.Abstracctions;
 
 namespace Companies.Infrastructure.Repositories;
 
-public sealed class CountriesRepository(AppDbContext db) : ICountriesRepository
+public class CountriesRepository(AppDbContext db) : ICountriesRepository
 {
-    public Task<Countries?> GetByIdAsync(int id, CancellationToken ct = default)
-        => db.Countries.AsNoTracking().FirstOrDefaultAsync(c => c.id == id, ct);
-    public Task<Countries?> ByNameAsync(string name, CancellationToken ct = default)
-        => db.Countries.AsNoTracking().FirstOrDefaultAsync(c => c.name == name, ct);
-    public async Task AddAsync(Countries countries, CancellationToken ct = default)
+    public async Task<Countries?> GetByIdAsync(int id, CancellationToken ct = default)
+        => await db.Countries.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, ct);
+
+    public async Task<IEnumerable<Countries>> GetAllAsync(CancellationToken ct = default)
+        => await db.Countries.AsNoTracking().ToListAsync(ct);
+
+    public async Task<Countries?> GetByNameAsync(string name, CancellationToken ct = default)
+        => await db.Countries.AsNoTracking().FirstOrDefaultAsync(c => c.Name == name, ct);
+
+    public Task AddAsync(Countries country, CancellationToken ct = default)
     {
-        db.Countries.Add(countries);
-        //await db.SaveChangesAsync(ct);
-        await Task.CompletedTask;
+        db.Countries.Add(country);
+        return Task.CompletedTask; // Se confirma con UnitOfWork.SaveChangesAsync()
     }
 
-    public async Task UpdateAsync(Countries countries, CancellationToken ct = default)
+    public Task UpdateAsync(Countries country, CancellationToken ct = default)
     {
-        db.Countries.Update(countries);
-        //await db.SaveChangesAsync(ct);
-        await Task.CompletedTask;
+        db.Countries.Update(country);
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Countries countries, CancellationToken ct = default)
+    public async Task DeleteAsync(int id, CancellationToken ct = default)
     {
-        db.Countries.Remove(countries);
-        //await db.SaveChangesAsync(ct);
-        await Task.CompletedTask;
+        var country = await db.Countries.FindAsync([id], ct);
+        if (country is not null)
+        {
+            db.Countries.Remove(country);
+            await Task.CompletedTask;
+        }
     }
 
-    public Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default)
+    public async Task<int> CountAsync(string? q, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        var query = db.Countries.AsNoTracking();
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            var term = q.Trim().ToUpper();
+            query = query.Where(c => c.Name.ToUpper().Contains(term));
+        }
+        return await query.CountAsync(ct);
     }
-
-    public Task<IReadOnlyList<Countries?>> GetAllAsync(CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IReadOnlyList<Countries?>> GetByRegionAsync(Regions region, CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> CountAsync(string? search = null, CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    /* public Task<int> CountAsync(string? search = null, CancellationToken ct = default)
-     {
-         var query = db.Countries.AsNoTracking();
-         if (!string.IsNullOrWhiteSpace(search))
-         {
-             var term = search.Trim().ToUpper();
-             query = query.Where(c => c.name.ToUpper().Contains(term) || 
-         }
-
-         return query.CountAsync(ct);
-     }*/
 }
