@@ -5,26 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 
-namespace Companies.Domain.Entities
+namespace Companies.Domain.Entities;
+
+public class Countries
 {
-    public class Countries
+    public int Id { get; set; }
+    public string Name { get; set; } = null!;
+
+    public ICollection<Regions> Regions { get; set; } = new List<Regions>();
+
+    public Countries() { }
+    public Countries(string name)
     {
-        public int id { get; set; } = Guid.NewGuid().GetHashCode();
-        public string name { get; set; } = null!;
-        public ICollection<Regions> Regions { get; set; } = new List<Regions>();
-
-
-        protected Countries() { }
-        public Countries(string name)
-        {
-            this.name = name;
-        }
-        public void UpdateCountry(int newId, string newName)
-        {
-            id = newId;
-            name = newName;
-        }
+        Name = name;
     }
 }
-
-
