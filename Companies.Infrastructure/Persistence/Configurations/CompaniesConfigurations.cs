@@ -6,39 +6,42 @@ using Companies.Domain.Entities;
 
 namespace Companies.Infrastructure.Persistence.Configurations;
 
-public sealed class CompaniesConfigurations
+
+public class CompaniesConfiguration : IEntityTypeConfiguration<Companiess>
 {
-    public void Configure(EntityTypeBuilder<Companie> builder)
+    public void Configure(EntityTypeBuilder<Companiess> builder)
     {
         builder.ToTable("Companies");
 
-        builder.HasKey(c => c.id);
-        builder.Property(c => c.id)
-            .ValueGeneratedOnAdd();
+        builder.HasKey(c => c.Id);
 
-        builder.Property(c => c.name)
+        builder.Property(c => c.Name)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.OwnsOne(c => c.Ukniu, u =>
+
+        builder.Property(c => c.Address)
+            .IsRequired()
+            .HasMaxLength(200);
+
+        builder.Property(c => c.Email)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.OwnsOne(c => c.Ukniu, ukniu =>
         {
-            u.Property(uk => uk.Value)
+            ukniu.Property(u => u.Value)
                 .IsRequired()
                 .HasMaxLength(20)
                 .HasColumnName("Ukniu");
         });
 
-        builder.Property(c => c.address)
-            .IsRequired()
-            .HasMaxLength(200);
+        builder.HasOne(c => c.City)
+            .WithMany(c => c.Companies)
+            .HasForeignKey(c => c.CityId);
 
-        builder.Property(c => c.email)
-            .IsRequired()
-            .HasMaxLength(100);
-
-        builder.HasOne(c => c.Cities)
-            .WithMany()
-            .HasForeignKey(c => c.Citiesid)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(c => c.Branches)
+            .WithOne(b => b.Company)
+            .HasForeignKey(b => b.CompanyId);
     }
 }
