@@ -1,5 +1,5 @@
 using System;
-using Companies.Application.Abstractions;
+using Companies.Application.Abstracctions;
 
 namespace Companies.Application.Abstractions;
 
