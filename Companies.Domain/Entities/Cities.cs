@@ -14,7 +14,7 @@ public class Cities
     public int RegionId { get; set; }
     public virtual Regions? Region { get; set; }
 
-    public ICollection<Companies> Companies { get; set; } = new List<Companies>();
+    public ICollection<Companiess> Companies { get; set; } = new List<Companiess>();
     public ICollection<Branches> Branches { get; set; } = new List<Branches>();
 
     public Cities() { }
