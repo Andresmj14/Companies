@@ -11,16 +11,14 @@ namespace Companies.Infrastructure.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
-    private ICountriesRepository? _countriesRepository;
-    private IRegiosnRepository? _regionsRepository;
-    private ICitiesRepository? _citiesRepository;
     private ICompaniesRepository? _companiesRepository;
     private IBranchesRepository? _branchesRepository;
-
-    public UnitOfWork(AppDbContext db)
+    private ICitiesRepository? _citiesRepository;
+    private IRegionsRepository? _regionsRepository;
+    private ICountriesRepository? _countriesRepository;
+    public UnitOfWork(AppDbContext context)
     {
-        _context = db;
-
+        _context = context;
     }
     public Task<int> SaveChangesAsync(CancellationToken ct = default)
         => _context.SaveChangesAsync(ct);
@@ -39,21 +37,12 @@ public class UnitOfWork : IUnitOfWork
             throw;
         }
     }
-    // private readonly AppDbContext? _context;
-    // private IProductRepository? _productRepository;
-    // public UnitOfWork(AppDbContext context)
-    // {
-    //     _context = context;
-    // }
-    public ICountriesRepository Countries{
-        get
-        {
-            if(_countriesRepository == null)
-            {
-                _countriesRepository = new CountriesRepository(_context);
-            }
-            return _countriesRepository;
-        }
-    }
+    public IBranchesRepository Branches => _branchesRepository ??= new BranchesRepository(_context);
+    public ICompaniesRepository Companies => _companiesRepository ??= new CompaniesRepository(_context);
+    public ICitiesRepository Cities => _citiesRepository ??= new CitiesRepository(_context);
+    public IRegionsRepository Regions => _regionsRepository ??= new RegionsRepository(_context);
+    public ICountriesRepository Countries => _countriesRepository ??= new CountriesRepository(_context);
+
 
 }
+
